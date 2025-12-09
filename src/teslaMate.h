@@ -8,17 +8,17 @@
 #include "settings.h"
 
 struct TeslaMateResponse {
-    int charge_limit = -1;            // %
-    int soc = -1;                     // %
-    float temp_outside = -99.0;       // °C
-    float temp_inside = -99.0;        // °C
-    int mileage = -1;                 // km
-    float speed = -1.0;               // km
-    String estimated_range_100 = "";  //
-    float range_rated = -1.0;         //
-    float range_estimated = -1.0;     //
-    String status = "";               //
-    String version = "";              //
+    float range_rated = 0;      // km
+    float range_estimated = 0;  // km
+    int charge_limit = 0;       // %
+    int soc = 0;                // %
+    float temp_outside = 0;     // °C
+    float temp_inside = 0;      // °C
+    int mileage = -1;           // km
+    float speed = -1.0;         // km
+    String estimated_range_100 = "";
+    String status = "";
+    String version = "";
 };
 
 TeslaMateResponse tesla;

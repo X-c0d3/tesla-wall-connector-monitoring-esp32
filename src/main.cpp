@@ -254,8 +254,10 @@ bool updateDisplayTeslaMate(void*) {
             y += 15;
         }
 
-        tft.drawString("Inside Temp: " + String(teslaMate.temp_inside) + " C", 10, y);
-        y += 15;
+        if (teslaMate.temp_inside > 0) {
+            tft.drawString("Inside Temp: " + String(teslaMate.temp_inside) + " C", 10, y);
+            y += 15;
+        }
         tft.drawString("Mileage: " + String(teslaMate.mileage) + " km", 10, y);
 
         tft.setTextSize(4);
@@ -300,7 +302,7 @@ bool jpgRender(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap) {
     return true;
 }
 
-void intialStartButton() {
+void initialMainPage() {
     TJpgDec.setCallback(jpgRender);
 
     String mainLogo = "/mainLogo.jpg";
@@ -318,6 +320,19 @@ void intialStartButton() {
     tft.drawString("LOADING...", 190, 290);
 }
 
+void loadBootLogo() {
+    TJpgDec.setCallback(jpgRender);
+
+    String boolLogo = "/tesla-boot-logo.jpg";
+    File file = SPIFFS.open(boolLogo);
+    if (!file) {
+        Serial.println("Failed to open " + boolLogo);
+        return;
+    }
+    // Load Image
+    TJpgDec.drawFsJpg(0, 0, boolLogo);
+}
+
 void addCarLogo() {
     String teslaLogo2 = "/tesla_logo2.jpg";  // load image from SPIFFS
     File file = SPIFFS.open(teslaLogo2);
@@ -332,10 +347,6 @@ void addCarLogo() {
 #define TFT_BL 4
 const int blChannel = 0;
 
-void setBrightness(uint8_t brightness) {
-    ledcWrite(blChannel, brightness);
-};
-
 void setup() {
     Serial.begin(DEFAULT_BAUD_RATE);
     // Build-in LED
@@ -346,19 +357,18 @@ void setup() {
         return;
     }
 
-    ledcAttachPin(TFT_BL, blChannel);
-    ledcSetup(blChannel, 5000, 8);
-    ledcWrite(blChannel, 255);  // สว่างสุด
-    setBrightness(0);
-
     tft.init();
     tft.setRotation(1);
     tft.fillScreen(TFT_TRANSPARENT);
     tft.setSwapBytes(true);
 
-    // Initialize and draw the button
-    intialStartButton();
+    loadBootLogo();
+    delay(2000);
 
+    // Initialize and draw the button
+    initialMainPage();
+
+    // Connect WIFI
     setup_Wifi();
     setupTimeZone();
 
@@ -398,7 +408,7 @@ void loop() {
             tft.fillScreen(TFT_BLACK);
             isStarted = false;
 
-            intialStartButton();
+            initialMainPage();
             createStartButton();
             break;
     }
