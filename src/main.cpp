@@ -116,9 +116,8 @@ void drawVitals() {
     tft.drawString("Pilot Low: " + String(teslaWallConnect.pilot_low_v) + " V", 220, y);
     y += 15;
 
-    int chargeStatusId = teslaWallConnect.evse_state;
     String chargeStatus;
-    switch (chargeStatusId) {
+    switch (teslaWallConnect.evse_state) {
         case 1:
             chargeStatus = "Not Connected";
             break;
@@ -135,7 +134,7 @@ void drawVitals() {
             chargeStatus = "Unknown";
     }
 
-    tft.drawString("State: " + chargeStatus, 10, y);
+    drawFixedText(tft, 10, y, 200, 10, "State: " + chargeStatus, TFT_WHITE, TFT_BLACK, 1.9);
     tft.drawString("Prox: " + String(teslaWallConnect.prox_v) + " V", 220, y);
     y += 15;
 
@@ -156,11 +155,10 @@ void drawLifetime() {
 
     tft.drawString("Contactor cycles: " + String(teslaWallConnect.contactor_cycles), 10, y);
     y += 15;
-
     tft.drawString("Energy: " + smartEnergyW(teslaWallConnect.energy_wh), 10, y);
     drawBar(tft, 200, y, 150, 10, teslaWallConnect.energy_wh / 1000.0, MAX_LIFETIME_ENERGY, TFT_ORANGE);
     y += 15;
-    tft.drawString("Uptime: " + String(uptimeDays, 0) + " days", 10, y);
+    drawFixedText(tft, 10, y, 200, 10, "Uptime: " + String(uptimeDays, 0) + " days", TFT_YELLOW, TFT_BLACK, 1.9);
 }
 
 void drawWifi() {
@@ -344,9 +342,6 @@ void addCarLogo() {
     TJpgDec.setCallback(jpgRender);
     TJpgDec.drawFsJpg(390, 125, teslaLogo2);
 }
-
-#define TFT_BL 4
-const int blChannel = 0;
 
 void setup() {
     Serial.begin(DEFAULT_BAUD_RATE);
