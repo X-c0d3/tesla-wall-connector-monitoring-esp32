@@ -266,6 +266,7 @@ bool updateDisplayTeslaMate(void*) {
 
         tft.setTextSize(1.9);
         tft.setTextColor(TFT_BLACK, TFT_WHITE);
+        tft.drawString(String(WiFi.localIP().toString()), 387, 285);
         tft.drawString("v " + String(teslaMate.version), 410, 300);
     }
     // createResponse(webSocket, teslaWallConnect);
