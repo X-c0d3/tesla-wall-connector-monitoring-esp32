@@ -196,22 +196,22 @@ bool updateDisplayTeslaWallConnect(void*) {
     if (isStarted) {
         // Version
         String versionResp = httpGet(String(TESLA_WALLCONNECT_API) + "version");
-        StaticJsonDocument<512> verDoc;
+        JsonDocument verDoc;
         deserializeJson(verDoc, versionResp);
 
         // wifi_status
         String wifiResp = httpGet(String(TESLA_WALLCONNECT_API) + "wifi_status");
-        StaticJsonDocument<512> wifiDoc;
+        JsonDocument wifiDoc;
         deserializeJson(wifiDoc, wifiResp);
 
         // Vitals
         String vitalsResp = httpGet(String(TESLA_WALLCONNECT_API) + "vitals");
-        StaticJsonDocument<2048> vitalsDoc;
+        JsonDocument vitalsDoc;
         deserializeJson(vitalsDoc, vitalsResp);
 
         // Lifetime
         String lifetimeResp = httpGet(String(TESLA_WALLCONNECT_API) + "lifetime");
-        StaticJsonDocument<1024> lifetimeDoc;
+        JsonDocument lifetimeDoc;
         deserializeJson(lifetimeDoc, lifetimeResp);
 
         convertFromJson(verDoc.as<JsonVariantConst>(),
