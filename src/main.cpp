@@ -193,39 +193,30 @@ bool updateDisplayTeslaWallConnect(void*) {
     ledState = !ledState;
     digitalWrite(ESP32C3_LED, ledState);
 
-    if (isStarted) {
-        // Version
-        String versionResp = httpGet(String(TESLA_WALLCONNECT_API) + "version");
-        JsonDocument verDoc;
-        deserializeJson(verDoc, versionResp);
+    if (!isStarted) return true;
 
-        // wifi_status
-        String wifiResp = httpGet(String(TESLA_WALLCONNECT_API) + "wifi_status");
-        JsonDocument wifiDoc;
-        deserializeJson(wifiDoc, wifiResp);
+    DynamicJsonDocument verDoc(512);
+    DynamicJsonDocument wifiDoc(512);
+    DynamicJsonDocument vitalsDoc(1024);
+    DynamicJsonDocument lifetimeDoc(1024);
 
-        // Vitals
-        String vitalsResp = httpGet(String(TESLA_WALLCONNECT_API) + "vitals");
-        JsonDocument vitalsDoc;
-        deserializeJson(vitalsDoc, vitalsResp);
+    // Call Tesla WallConnect API
+    deserializeJson(verDoc, httpGet(String(TESLA_WALLCONNECT_API) + "version"));
+    deserializeJson(wifiDoc, httpGet(String(TESLA_WALLCONNECT_API) + "wifi_status"));
+    deserializeJson(vitalsDoc, httpGet(String(TESLA_WALLCONNECT_API) + "vitals"));
+    deserializeJson(lifetimeDoc, httpGet(String(TESLA_WALLCONNECT_API) + "lifetime"));
 
-        // Lifetime
-        String lifetimeResp = httpGet(String(TESLA_WALLCONNECT_API) + "lifetime");
-        JsonDocument lifetimeDoc;
-        deserializeJson(lifetimeDoc, lifetimeResp);
+    convertFromJson(verDoc.as<JsonVariantConst>(),
+                    wifiDoc.as<JsonVariantConst>(),
+                    vitalsDoc.as<JsonVariantConst>(),
+                    lifetimeDoc.as<JsonVariantConst>(),
+                    teslaWallConnect);
 
-        convertFromJson(verDoc.as<JsonVariantConst>(),
-                        wifiDoc.as<JsonVariantConst>(),
-                        vitalsDoc.as<JsonVariantConst>(),
-                        lifetimeDoc.as<JsonVariantConst>(),
-                        teslaWallConnect);
-
-        drawHeader();
-        drawVitals();
-        drawLifetime();
-        drawWifi();
-        drawTeslaMate();
-    }
+    drawHeader();
+    drawVitals();
+    drawLifetime();
+    drawWifi();
+    drawTeslaMate();
 
     return true;
 }
