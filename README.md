@@ -49,6 +49,6 @@ Tesla Wall Connector Monitoring via ESP32-C3 Super Mini + TFT LI9488 Display
 ```
 
 <p float="center">
-<img src="https://github.com/X-c0d3/guacamole-k8s/blob/main/screenshot/screenshot1.jpg">
-<img src="https://github.com/X-c0d3/tesla-wall-connector-monitoring-esp32/blob/main/picture/IMG_0785.jpg">
+<img src="https://github.com/X-c0d3/guacamole-k8s/blob/main/screenshot/screenshot1.jpg"  width="300">
+<img src="https://github.com/X-c0d3/tesla-wall-connector-monitoring-esp32/blob/main/picture/IMG_0785.jpg"  width="300">
 </p>
