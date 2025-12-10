@@ -367,8 +367,8 @@ void setup() {
         webSocket.begin(SOCKETIO_HOST, SOCKETIO_PORT);
         webSocket.on(SOCKETIO_CHANNEL, event);
 
-        timer.every(3000, updateDisplayTeslaMate);
-        timer.every(3000, updateDisplayTeslaWallConnect);
+        timer.every(2000, updateDisplayTeslaMate);
+        timer.every(2000, updateDisplayTeslaWallConnect);
         //  wdt_enable(10000);
     }
 }
